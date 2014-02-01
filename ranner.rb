@@ -3,6 +3,7 @@
 APP_PATH = File.dirname(File.absolute_path(__FILE__))
 
 require 'pty'
+require 'thread'
 
 class Ranner
 
@@ -38,10 +39,20 @@ class Ranner
     end
   end
 
+  def start_file_watcher
+    Thread.new do
+      loop do
+        check_watched_files
+        sleep 0.5
+      end
+    end
+  end
+
   def initialize_watched_files
     m = Module.new do
       def self.file_modified(file)
         "File modified #{File.basename file}"
+        test_file file.path
       end
     end
 
