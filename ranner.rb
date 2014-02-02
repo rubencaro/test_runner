@@ -9,6 +9,7 @@ class Ranner
 
   def initialize
     initialize_watched_files
+    start_file_watcher
   end
 
   def run_cmd(cmd)
